@@ -14,6 +14,11 @@ app.post('/notes',(req,res)=>{
     res.send('Notes added successfully')
 })
 
+app.get('/notes',(req,res)=>{
+    res.send(notes)
+})
+
+
  app.listen(3000,()=>{
     console.log('Server is running on port 3000')
 })
