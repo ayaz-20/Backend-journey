@@ -1,0 +1,1 @@
+today i learnt to initialise a node project and install express and catme pakages and setup a server and used it
