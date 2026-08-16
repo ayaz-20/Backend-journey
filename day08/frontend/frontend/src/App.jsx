@@ -1,36 +1,31 @@
 import { useState } from 'react'
+import {useEffect} from 'react'
 import axios from 'axios'
 
 
 function App() {
 
   const [notes, setnotes] = useState([
-    {
-      title: "This is my first note",
-      description: "This is my first note description"
-    },
-    {
-      title: "This is my second note",
-      description: "This is my second note description"
-    },
-    {
-      title: "This is my third note",
-      description: "This is my third note description"
-    },
+    {}
   ]);
 
+  console.log("Hello from frontend");
+
+ useEffect(() => {
   axios.get('http://localhost:3000/api/notes')
   .then((res)=>{
-   setNotes(res.data.notes);
-  }
-  )
+   setnotes(res.data.notes);
+  })
+}, [])
+
+  
 
   return (
     <> <div className="notes">
       {
-       notes.map((note) => {
+       notes.map((note,key) => {
           
-         return <div className="note">
+         return <div className="note" key={key}>
             <h1>{note.title}</h1>
             <p>{note.description}</p>
           </div>
