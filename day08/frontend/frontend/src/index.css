@@ -37,3 +37,10 @@ html{
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
 }
+
+.note-create-form{
+  display: flex;
+  gap: 1rem;
+  padding-inline: 2rem;
+  padding-block: 1rem;
+}
