@@ -26,21 +26,97 @@ html{
 }
 .note{
   background-color: #585757;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 0.5rem;
-  max-width: 20rem;
+  min-width: 17rem;
   max-height: fit-content;
   color: #fff;
   
 }
+
+
 .note h1{
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
+  
+  font-size: 1.8rem;
+  margin-bottom: 0.rem;
+  text-transform: capitalize;
 }
+.note p{
+  padding: 1rem 0;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+}
+
 
 .note-create-form{
   display: flex;
   gap: 1rem;
-  padding-inline: 2rem;
-  padding-block: 1rem;
+ padding: 1rem;
+}
+
+.note-create-form input{
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  border: none;
+  outline: none;
+  width: 40%;
+}
+
+.note-create-form button{
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  outline: none;
+  background-color: #585757;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.btn button{
+  padding: .4rem 0.7rem;
+  border-radius: 0.3rem;
+  border: none;
+}
+
+.btn{
+  display: flex;
+  justify-content: space-between;
+}
+
+.upt_form{
+  display: flex;
+  flex-direction: column;
+  background-color: #585757;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  min-width: 17rem;
+  max-height: fit-content;
+  color: #fff;
+  
+}
+.upt_form input{
+  padding: .7rem .8rem;
+  margin-bottom: .3rem;
+  border:none;
+  border-radius: 0.2rem;
+}
+.upt_form button{
+  padding: .5rem .8rem;
+   border:none;
+  border-radius: 0.2rem;
+  background-color: green;
+  color: white;
+  font-size: 1.2rem;
+}
+.update{
+  background-color: rgb(202, 202, 11);
+   color: black;
+  font-size: 1.2rem;
+}
+
+.del{
+  background-color: rgb(222, 22, 7);
+   color: white;
+  font-size: 1.2rem;
 }

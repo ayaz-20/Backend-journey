@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {useEffect} from 'react'
+import { useEffect } from 'react'
 import axios from 'axios'
 
 
@@ -8,66 +8,111 @@ function App() {
   const [notes, setnotes] = useState([
     {}
   ]);
-function fetchNotes(){
-axios.get('http://localhost:3000/api/notes')
-  .then((res)=>{
-   setnotes(res.data.notes);
-  })
-}
+  const [editingNoteId, setEditingNoteId] = useState(null);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescription, setNewDescription] = useState("");
+
+  function fetchNotes() {
+    axios.get('http://localhost:3000/api/notes')
+      .then((res) => {
+        setnotes(res.data.notes);
+      })
+  }
   console.log("Hello from frontend");
 
- useEffect(() => {
-  fetchNotes();
-}, [])
+  useEffect(() => {
+    fetchNotes();
+  }, [])
 
-function handleSubmit(e){
- 
-  e.preventDefault()
+  function handleSubmit(e) {
 
- const {title,description} = e.target.elements
+    e.preventDefault()
 
- axios.post("http://localhost:3000/api/notes",{
-  title:title.value,
-  description:description.value
- })
- .then(res=>{
-  
-  fetchNotes()
- })
+    const { title, description } = e.target.elements
 
-}
+    axios.post("http://localhost:3000/api/notes", {
+      title: title.value,
+      description: description.value
+    })
+      .then(res => {
 
-function handleDeleteNote(noteId){
-  console.log(noteId)
-  axios.delete('http://localhost:3000/api/notes/'+noteId)
-  .then(res=>{
-    console.log(res.data)
-    fetchNotes()
-  })
-}
+        fetchNotes()
+      })
+
+  }
+
+  function handleDeleteNote(noteId) {
+    console.log(noteId)
+    axios.delete('http://localhost:3000/api/notes/' + noteId)
+      .then(res => {
+        console.log(res.data)
+        fetchNotes()
+      })
+  }
+
+  function handleUpdate(note) {
+    console.log(note)
+    setEditingNoteId(note._id)
+    setNewTitle(note.title)
+    setNewDescription(note.description)
+
+  }
+
+  function update() {
+    axios.patch('http://localhost:3000/api/notes/' + editingNoteId, {
+      title: newTitle,
+      description: newDescription
+    })
+      .then(() => {
+        setEditingNoteId(null)
+        fetchNotes()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
 
   return (
-    <> 
-    
-    <form className='note-create-form' onSubmit={handleSubmit}>
-       <input name='title' type="text" placeholder='Enter title'/>
-       <input name='description' type="text" placeholder='Enter description' />
-       <button >Create Notes</button>
-    </form>
-    
-    <div className="notes">
-      {
-       notes.map((note,key) => {
-          
-         return <div className="note" key={key}>
-            <h1>{note.title}</h1>
-            <p>{note.description}</p>
-            <button onClick={()=>handleDeleteNote(note._id)}>Delete</button>
-          </div>
-        }
-      )}
+    <>
 
-    </div>
+      <form className='note-create-form' onSubmit={handleSubmit}>
+        <input name='title' type="text" placeholder='Enter title' />
+        <input name='description' type="text" placeholder='Enter description' />
+        <button >Create Notes</button>
+      </form>
+
+      <div className="notes">
+        {
+          notes.map((note, key) => {
+
+            return <div className="note" key={key}>
+              {editingNoteId === note._id ? (
+                <> <div className="upt_form">
+                  <input value={newTitle} onChange={(e) => { setNewTitle(e.target.value) }} />
+                  <input value={newDescription} onChange={(e) => { setNewDescription(e.target.value) }} />
+                  <button onClick={() => {
+                    update()
+                  }}>Submit</button>
+                </div>
+
+                </>
+              ) : (
+                <>
+                  <h1>{note.title}</h1>
+                  <p>{note.description}</p>
+                  <div className="btn"><button onClick={() => handleDeleteNote(note._id)} className='del'>Delete</button>
+                    <button onClick={() => { handleUpdate(note) }} className='update'>Update</button></div>
+                </>
+              )
+              }
+
+
+            </div>
+          }
+          )}
+
+      </div>
     </>
   )
 }
