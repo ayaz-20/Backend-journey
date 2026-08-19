@@ -13,7 +13,7 @@ function App() {
   const [newDescription, setNewDescription] = useState("");
 
   function fetchNotes() {
-    axios.get('http://localhost:3000/api/notes')
+    axios.get('https://backend-journey-v1f8.onrender.com/api/notes')
       .then((res) => {
         setnotes(res.data.notes);
       })
@@ -30,7 +30,7 @@ function App() {
 
     const { title, description } = e.target.elements
 
-    axios.post("http://localhost:3000/api/notes", {
+    axios.post("https://backend-journey-v1f8.onrender.com/api/notes", {
       title: title.value,
       description: description.value
     })
@@ -43,7 +43,7 @@ function App() {
 
   function handleDeleteNote(noteId) {
     console.log(noteId)
-    axios.delete('http://localhost:3000/api/notes/' + noteId)
+    axios.delete('https://backend-journey-v1f8.onrender.com/api/notes/' + noteId)
       .then(res => {
         console.log(res.data)
         fetchNotes()
@@ -59,7 +59,7 @@ function App() {
   }
 
   function update() {
-    axios.patch('http://localhost:3000/api/notes/' + editingNoteId, {
+    axios.patch('https://backend-journey-v1f8.onrender.com/api/notes/' + editingNoteId, {
       title: newTitle,
       description: newDescription
     })
