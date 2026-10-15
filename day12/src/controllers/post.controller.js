@@ -7,7 +7,7 @@ const imagekit = new Imagekit({
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY
 })
 
-async function postController(req, res) {
+async function createpostController(req, res) {
 
     const { caption, image } = req.body
     console.log(req.body, req.file)
@@ -50,6 +50,41 @@ async function postController(req, res) {
 
 }
 
+async function getPostController(req,res){
+    const token = req.cookies.token;
+
+    if(!token){
+        return res.status(401).json({
+            message:"token not found"
+        })
+    }
+    
+    let decoded =null;
+    try{
+        decoded = jwt.verify(token,process.env.JWT_SECRET)
+    }catch(err){
+      return  res.status(401).json({
+            message:'invalid token'
+        })
+    }
+    const user=decoded.id
+
+    const post = await postModel.find({user})  
+    const length = post.length
+
+    if(!length){
+      return  res.status(404).json({
+            message:"post not found"
+        })
+    }
+
+    res.status(200).json({
+        message:'posts fetched successfully',
+        post
+    })
+}
+
 module.exports = {
-    postController
+    createpostController,
+    getPostController
 }
