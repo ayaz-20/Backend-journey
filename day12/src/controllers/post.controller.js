@@ -13,24 +13,6 @@ async function createpostController(req, res) {
     const { caption, image } = req.body
     console.log(req.body, req.file)
 
-    const token = req.cookies.token
-
-    if (!token) {
-        res.status(401).json({
-            message: "unauthorized access"
-        })
-    }
-    let decode = null
-
-    try {
-        decode = jwt.verify(token, process.env.JWT_SECRET)
-    } catch (error) {
-        res.status(401).json({
-            message: "unauthorized access"
-        })
-    }
-
-
     const file = await imagekit.files.upload({
         file: await toFile(Buffer.from(req.file.buffer), req.file.originalname),
         fileName: req.file.originalname
@@ -40,7 +22,7 @@ async function createpostController(req, res) {
     const post = await postModel.create({
         caption:caption,
         imgUrl:file.url,
-        user:decode.id
+        user:req.user.id
     })
 
     res.status(201).json({
@@ -52,23 +34,8 @@ async function createpostController(req, res) {
 }
 
 async function getPostController(req,res){
-    const token = req.cookies.token;
-
-    if(!token){
-        return res.status(401).json({
-            message:"token not found"
-        })
-    }
-    
-    let decoded =null;
-    try{
-        decoded = jwt.verify(token,process.env.JWT_SECRET)
-    }catch(err){
-      return  res.status(401).json({
-            message:'invalid token'
-        })
-    }
-    const user=decoded.id
+   
+    const user=req.user.id;
 
     const post = await postModel.find({user})  
     const length = post.length
@@ -87,24 +54,7 @@ async function getPostController(req,res){
 
 async function getPostDetails(req,res){
     const postId = req.params.postId
-
-      const token = req.cookies.token;
-
-    if(!token){
-        return res.status(401).json({
-            message:"token not found"
-        })
-    }
-    
-    let decoded =null;
-    try{
-        decoded = jwt.verify(token,process.env.JWT_SECRET)
-    }catch(err){
-      return  res.status(401).json({
-            message:'invalid token'
-        })
-    }
-    const userId=decoded.id
+    const userId=req.user.id
 
     const post = await postModel.findById(postId)
 

@@ -1,13 +1,13 @@
 const express = require('express')
 const postController = require('../controllers/post.controller')
-
+const identifyUser = require('../middlewares/auth.middleware')
 
 const postRouter = express.Router()
 
-postRouter.post('/', postController.createpostController)
-postRouter.get('/',postController.getPostController)
+postRouter.post('/',identifyUser,postController.createpostController)
+postRouter.get('/',identifyUser,postController.getPostController)
 
 //api to return detail about specific post with the id.also check whether the post belong to the user that requested it
-postRouter.get('/details/:postId',postController.getPostDetails)
+postRouter.get('/details/:postId',identifyUser,postController.getPostDetails)
 
 module.exports = postRouter
