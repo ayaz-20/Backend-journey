@@ -21,7 +21,7 @@ async function identifyUser(req,res,next){
             })
         }
 
-        req.user =decoded;
+        req.user = decoded;
 
         next();
 
