@@ -6,6 +6,13 @@ const followSchema = new mongoose.Schema({
     },
     followee:{
          type:String
+    },
+    status:{
+        type:String,
+        default:"Pending",
+        enum:{
+            values:['Pending',"Accepted","Rejected"],
+        }
     }
 },{
     timestamps:true

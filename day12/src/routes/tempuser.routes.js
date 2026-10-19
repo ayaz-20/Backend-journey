@@ -1,6 +1,8 @@
 const express = require('express')
 const {followUserController,
-    unfollowUserController} = require('../controllers/user.controller')
+    unfollowUserController,
+statusUserController,
+updateStatusUserController} = require('../controllers/user.controller')
 
 const identifyUser = require('../middlewares/auth.middleware')
 
@@ -11,6 +13,8 @@ console.log(typeof identifyUser);
 
 userRouter.post("/follow/:username",identifyUser,followUserController)
 userRouter.post("/unfollow/:username",identifyUser,unfollowUserController)
+userRouter.get("/status/",identifyUser,statusUserController)
+userRouter.patch("/update/:username",identifyUser,updateStatusUserController)
 
 
 module.exports= userRouter
