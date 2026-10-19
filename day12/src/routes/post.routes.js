@@ -10,4 +10,6 @@ postRouter.get('/',identifyUser,postController.getPostController)
 //api to return detail about specific post with the id.also check whether the post belong to the user that requested it
 postRouter.get('/details/:postId',identifyUser,postController.getPostDetails)
 
+postRouter.post('/likes/:postId',identifyUser,postController.likePostController)
+
 module.exports = postRouter

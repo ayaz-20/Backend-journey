@@ -1,7 +1,9 @@
 const postModel = require('../model/post.model')
+const likeModel = require('../model/like.model')
 const Imagekit = require('@imagekit/nodejs')
 const { toFile } = require('@imagekit/nodejs')
 const jwt = require('jsonwebtoken')
+const  mongoose= require('mongoose')
 
 
 const imagekit = new Imagekit({
@@ -79,8 +81,40 @@ async function getPostDetails(req,res){
 
 }
 
+
+
+async function likePostController(req,res){
+    const username=req.user.username
+    const postId = req.params.postId
+
+    if (!mongoose.isValidObjectId(req.params.postId)) {
+    return res.status(400).json({
+        message: "Invalid post ID"
+    });
+}
+
+    const isPostExists = await postModel.findById(postId)
+
+    if(!isPostExists){
+        return res.status(404).json({
+            message:"post doesn't exist"
+        })
+    }
+
+    const like = await likeModel.create({
+       postId:postId,
+        username:username
+    })
+
+    res.status(200).json({
+        message:"post liked successfully",
+        like
+    })
+
+}
 module.exports = {
     createpostController,
     getPostController,
-    getPostDetails
+    getPostDetails,
+    likePostController
 }

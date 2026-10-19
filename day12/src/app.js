@@ -9,7 +9,7 @@ const app = express();
 
 const postRouter = require('./routes/post.routes')
 const authRouter = require('./routes/auth.routes')
-const userRouter = require('./routes/user.routes')
+const userRouter = require('./routes/tempuser.routes')
 
 app.use(express.json());
 app.use(cookieParser())
