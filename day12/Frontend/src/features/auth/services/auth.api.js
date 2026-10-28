@@ -1,0 +1,45 @@
+import axios from "axios"
+
+const api = axios.create({
+    baseURL:"http://localhost:3000/api/auth",
+    withCredentials:true // to set token in cookie
+}) // help to avoid repetative code
+
+export async function register(username,email,password) {
+
+    try {
+        const response = await api.post('/register',{
+            username,
+            email,
+            password
+        })
+    } catch (error) {
+        throw error
+    }
+    
+}
+
+export async function login(username,password) {
+
+    try {
+        const response = await api.post('/login',{
+            username,
+            password
+        })
+    } catch (error) {
+        throw error
+    }
+    
+}
+
+export async function getMe() {
+
+    try {
+        const response = await api.post('/get-me')
+        return response.data
+    } 
+    catch (error) {
+        throw error
+    }
+    
+}

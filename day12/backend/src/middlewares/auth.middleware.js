@@ -8,7 +8,7 @@ async function identifyUser(req,res,next){
     
         if (!token) {
          return res.status(401).json({
-                message: "unauthorized access"
+                message: "token not available unauthorized access"
             })
         }
         let decoded = null;
